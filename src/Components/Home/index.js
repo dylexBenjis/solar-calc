@@ -70,6 +70,7 @@ const HomeBody = () => {
       setNumberOfBatteries('')
       setNumberOfPanels('')
       setLoadRating('')
+      setComment('')
     }
     useEffect(refresh,[])
 
@@ -93,6 +94,7 @@ const HomeBody = () => {
         setComment('input the solar panel voltage rating'); //not used in any line to calculate TImeFor function component
       }
 
+
       let batteryWattHour = batteryAmp_hour*batteryVoltage;
       let totalSolarCapacity = solarWattage*numberOfPanels;
       let totalBatteryCapacity = batteryWattHour*numberOfBatteries;
@@ -106,29 +108,29 @@ const HomeBody = () => {
    <Grid data-aos='fade-in'>
     <Solar>
     <Text1>Number of solar panels :</Text1>
-      <Input> <Space onChange={e=>setNumberOfPanels(e.target.value)} value={numberOfPanels}></Space><Unit> Unit </Unit> </Input>
+      <Input> <Space type='number' onChange={e=>setNumberOfPanels(e.target.value)} value={numberOfPanels}></Space><Unit> Unit </Unit> </Input>
       <Indicator><span style={{color:'red'}}>*</span> number of panels needed</Indicator>
     </Solar>
     <Solar>
     <Text1>Number of batteries :</Text1>
-      <Input> <Space onChange={e=>setNumberOfBatteries(e.target.value)} value={numberOfBatteries}></Space><Unit> Unit </Unit> </Input>
+      <Input> <Space type='number' onChange={e=>setNumberOfBatteries(e.target.value)} value={numberOfBatteries}></Space><Unit> Unit </Unit> </Input>
       <Indicator><span style={{color:'red'}}>*</span> number of panels needed</Indicator>
     </Solar> 
     <Solar>
     <Text1>Solar Panel(s) Capacity :</Text1>
-      <Input> <Space onChange={e=>setSolarVoltage(e.target.value)} value={solarVoltage}></Space><Unit> V </Unit> </Input>
-      <Input> <Space onChange={e=>setSolarWattage(e.target.value)} value={solarWattage}></Space><Unit> W </Unit> </Input>
+      <Input> <Space type='number' onChange={e=>setSolarVoltage(e.target.value)} value={solarVoltage}></Space><Unit> V </Unit> </Input>
+      <Input> <Space type='number' onChange={e=>setSolarWattage(e.target.value)} value={solarWattage}></Space><Unit> W </Unit> </Input>
       <Indicator><span style={{color:'red'}}>*</span> recommended you use the same solar panel rating</Indicator>
     </Solar>
     <Solar>
     <Text1>Battery(s) Capacity :</Text1>
-      <Input> <Space onChange={e=>setBatteryVoltage(e.target.value)} value={batteryVoltage}></Space><Unit> V </Unit> </Input>
-      <Input> <Space onChange={e=>setBatteryAmp_hour(e.target.value)} value={batteryAmp_hour}></Space><Unit> AH </Unit> </Input>
+      <Input> <Space type='number' onChange={e=>setBatteryVoltage(e.target.value)} value={batteryVoltage}></Space><Unit> V </Unit> </Input>
+      <Input> <Space type='number' onChange={e=>setBatteryAmp_hour(e.target.value)} value={batteryAmp_hour}></Space><Unit> AH </Unit> </Input>
       <Indicator><span style={{color:'red'}}>*</span> recommended you use the same battery capacity, from the same supplier</Indicator>
     </Solar>
     <Solar>
     <Text1>Load :</Text1>
-      <Input> <Space onChange={e=>setLoadRating(e.target.value)} value={loadRating} ></Space><Unit> W </Unit> </Input>
+      <Input> <Space type='number' onChange={e=>setLoadRating(e.target.value)} value={loadRating} ></Space><Unit> W </Unit> </Input>
       <Indicator><span style={{color:'red'}}>*</span> total load to be powered</Indicator>
     </Solar>
     <Time>
@@ -182,6 +184,7 @@ const HomeBody = () => {
       setNumberOfBatteries('')
       setNumberOfPanels('')
       setLoadRating('')
+      setComment('')
     }
     useEffect(refresh,[])
 
@@ -204,6 +207,9 @@ const HomeBody = () => {
       if (solarVoltage===undefined||solarVoltage===''){
         setComment('input the solar panel voltage rating'); //not used in any line to calculate TImeFor function component
       }
+      if (loadRating===undefined||loadRating===''){
+        setComment('input the total load to be powered');
+      }
 
       let batteryWattHour = batteryAmp_hour*batteryVoltage;
       let numberOfBatteries = (loadRating*dischargeTime)/batteryWattHour;
@@ -223,29 +229,29 @@ const HomeBody = () => {
       <Grid>
       <Time>
         <Text1>Time for Charge :</Text1>
-        <Input> <Space id='charg' onChange={e=>setChargeTime(e.target.value)} value={chargeTime}></Space><Unit> Hrs </Unit> </Input>
+        <Input> <Space type='number' id='charg' onChange={e=>setChargeTime(e.target.value)} value={chargeTime}></Space><Unit> Hrs </Unit> </Input>
         <Indicator><span style={{color:'red'}}>*</span> time to charge the battery(s) to 100%</Indicator>
       </Time>
       <Time>
       <Text1>Time for discharge :</Text1>
-        <Input> <Space id='dischargeTime' onChange={e=>setDischargeTime(e.target.value)} value={dischargeTime}></Space><Unit> Hrs </Unit> </Input>
+        <Input> <Space type='number' id='dischargeTime' onChange={e=>setDischargeTime(e.target.value)} value={dischargeTime}></Space><Unit> Hrs </Unit> </Input>
         <Indicator><span style={{color:'red'}}>*</span> time to discharge the battery(s) to 0%</Indicator>
       </Time>
       <Solar>
       <Text1>Solar Panel(s) Capacity :</Text1>
-        <Input> <Space onChange={e=>setSolarVoltage(e.target.value)} value={solarVoltage}></Space><Unit> V </Unit> </Input>
-        <Input> <Space onChange={e=>setSolarWattage(e.target.value)} value={solarWattage}></Space><Unit> W </Unit> </Input>
+        <Input> <Space type='number' onChange={e=>setSolarVoltage(e.target.value)} value={solarVoltage}></Space><Unit> V </Unit> </Input>
+        <Input> <Space type='number' onChange={e=>setSolarWattage(e.target.value)} value={solarWattage}></Space><Unit> W </Unit> </Input>
         <Indicator><span style={{color:'red'}}>*</span> recommended you use the same solar panel rating</Indicator>
       </Solar>
       <Solar>
       <Text1>Battery(s) Capacity :</Text1>
-        <Input> <Space onChange={e=>setBatteryVoltage(e.target.value)} value={batteryVoltage}></Space><Unit> V </Unit> </Input>
-        <Input> <Space onChange={e=>setBatteryAmp_hour(e.target.value)} value={batteryAmp_hour}></Space><Unit> AH </Unit> </Input>
+        <Input> <Space type='number' onChange={e=>setBatteryVoltage(e.target.value)} value={batteryVoltage}></Space><Unit> V </Unit> </Input>
+        <Input> <Space type='number' onChange={e=>setBatteryAmp_hour(e.target.value)} value={batteryAmp_hour}></Space><Unit> AH </Unit> </Input>
         <Indicator><span style={{color:'red'}}>*</span> recommended you use the same battery capacity, from the same supplier</Indicator>
       </Solar>
       <Solar>
       <Text1>Load :</Text1>
-        <Input> <Space onChange={e=>setLoadRating(e.target.value)} value={loadRating}></Space><Unit> W </Unit> </Input>
+        <Input> <Space type='number' onChange={e=>setLoadRating(e.target.value)} value={loadRating}></Space><Unit> W </Unit> </Input>
         <Indicator><span style={{color:'red'}}>*</span> total load to be powered</Indicator>
       </Solar>
       <Solar>
@@ -359,7 +365,7 @@ const Space = styled.input`
 `
 const Spacee = styled.div`
   height: 40px ;
-  width: 70px ;
+  width: auto ;
   font-size:24px ;
   border: none ;
   padding: 0px 5px ;
