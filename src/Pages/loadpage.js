@@ -40,4 +40,8 @@ const Content = styled.div`
     color: orangered;
     text-shadow: 1px 1px 0 black, 0 0 10px orange;
     font-size:50px ;
+
+    @media screen and (max-width:600px){
+      font-size: 24px ;
+    }
 `

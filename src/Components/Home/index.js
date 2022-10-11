@@ -1,4 +1,3 @@
-import Aos from 'aos';
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { GlobalLayout } from '../../GlobalLayout/layout'
@@ -34,6 +33,7 @@ const HomeBody = () => {
     <div style={{display:'flex', justifyContent:'center', }}>
        <Button onClick={next}>Next</Button>   
     </div>
+
     </Grid>
    )
   }
@@ -291,7 +291,13 @@ const HomeBody = () => {
       <GlobalLayout>
         <Box>
           {ifChecked?<SelectedPage/>:<SelectPage/>}
-        </Box>
+        </Box>     
+        <div style={{display:'flex',justifyContent:'center', color:'white', }}>
+          <Boxx>
+            <div><span style={{color:'orange'}}>fun fact</span>:&nbsp;</div>
+            <div> The solar panel seen in the background picture is a polycrystalline solar panel. </div>
+          </Boxx>
+        </div>
       </GlobalLayout>
     </HomeBodyCon>
   )
@@ -310,11 +316,30 @@ const HomeBodyCon = styled.div`
 `
 const Box = styled.div`
   display: flex ;
+  flex-direction:column ;
   height: auto ;
   background-color: rgba(200,250,250, 0.7) ;
   border: 1px solid black;
   border-radius: 10px ;
 `
+const Boxx = styled.div`
+  display: grid ;
+  grid-template-columns: auto repeat(1, 1fr) ;
+  position: fixed;
+  bottom: 30px ;
+  height: auto ;
+  justify-content:center ;
+  background-color: transparent;
+  @media screen and (max-width:720px){
+    font-size: 14px ; 
+  }
+
+  @media screen and (max-width:600px){
+    font-size: 10px ;
+  }
+
+`
+
 const Grid = styled.div`
   display: grid ;
   width:100% ;
@@ -444,4 +469,12 @@ const Checkbox= styled.div`
     font-size: 14px ;
     gap: 8px ;
   }
+`
+
+const Checkboxx= styled.div`
+  display:flex;
+  flex-direction: row ;  gap: 15px;
+  font-size: 20px ;
+  align-items:center ;
+  justify-content:center ;
 `
