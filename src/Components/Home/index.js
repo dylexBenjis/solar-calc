@@ -378,7 +378,7 @@ const Input = styled.div`
 `
 const Space = styled.input`
   height: 40px ;
-  width: 70px ;
+  width: 150px ;
   font-size:24px ;
   border: none ;
   padding: 0px 5px ;
