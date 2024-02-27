@@ -6,7 +6,7 @@ import './index.css'
 const HomeBody = () => {
 
   const [ifChecked, setIfChecked] = useState(false);
-  const [doneChecked, setDoneChecked] = useState('')
+  const [doneChecked, setDoneChecked] = useState('');
 
 
   const SelectPage = () =>{
@@ -14,36 +14,34 @@ const HomeBody = () => {
 
     function next(){
       if (checked!==''){
-      setIfChecked(true)
-      setDoneChecked(checked)
-      } else {alert('select an option')}
+        setIfChecked(true);
+        setDoneChecked(checked);
+      } else { alert('select an option'); }
     }
     
 
-   return ( 
-   <Grid>
-    < Checkbox >
-    <input className='check' type='radio' name='pages' onChange={e=>setChecked(e.target.value)} value='TimeFor'/>
-      Estimate time for battery charge and discharge
-    </Checkbox>
-    <Checkbox>
-    <input className='check' type='radio' name='pages' onChange={e=>setChecked(e.target.value)} value='Numbers' />
-      Estimate the number of panels and batteries needed
-    </Checkbox>
-    <div style={{display:'flex', justifyContent:'center', }}>
-       <Button onClick={next}>Next</Button>   
-    </div>
-
-    </Grid>
-   )
+    return (
+      <Grid>
+        < Checkbox >
+          <input className='check' type='radio' name='pages' onChange={e => setChecked(e.target.value)} value='TimeFor' />
+          Estimate time for battery charge and discharge
+        </Checkbox>
+        <Checkbox>
+          <input className='check' type='radio' name='pages' onChange={e => setChecked(e.target.value)} value='Numbers' />
+          Estimate the number of panels and batteries needed
+        </Checkbox>
+        <div style={{ display: 'flex', justifyContent: 'center', }}>
+          <Button onClick={next}>Next</Button>
+        </div>
+      </Grid>
+    );
   }
 
 
   const TimeFor = () => {
 
-
     const [chargeTime, setChargeTime] = useState();
-  
+    const [chargeCurrent, setChargeCurrent] = useState();
     const [dischargeTime, setDischargeTime] = useState();
     
     const [solarVoltage, setSolarVoltage] = useState();
@@ -61,18 +59,19 @@ const HomeBody = () => {
     const [comment, setComment] = useState();
 
    const refresh =()=>{
-      setChargeTime('')
-      setDischargeTime('')
-      setSolarVoltage('')
-      setSolarWattage('')
-      setBatteryVoltage('')
-      setBatteryAmp_hour('')
-      setNumberOfBatteries('')
-      setNumberOfPanels('')
-      setLoadRating('')
-      setComment('')
+     setChargeTime('');
+     setDischargeTime('');
+     setSolarVoltage('');
+     setSolarWattage('');
+     setBatteryVoltage('');
+     setBatteryAmp_hour('');
+     setNumberOfBatteries('');
+     setNumberOfPanels('');
+     setLoadRating('');
+     setComment('');
+     setChargeCurrent('');
     }
-    useEffect(refresh,[])
+    useEffect(refresh, []);
 
     const calculate = () => {
       if (numberOfBatteries===undefined||numberOfBatteries===''){
@@ -96,16 +95,27 @@ const HomeBody = () => {
 
 
       let batteryWattHour = batteryAmp_hour*batteryVoltage;
-      let totalSolarCapacity = solarWattage*numberOfPanels;
-      let totalBatteryCapacity = batteryWattHour*numberOfBatteries;
+      let totalSolarCapacity = solarWattage * numberOfPanels;
+      let totalSolarCurrent = totalSolarCapacity / solarVoltage;
+      let totalBatteryCapacity = batteryWattHour * numberOfBatteries;
+      let totalBatteyCurrent = batteryAmp_hour * numberOfBatteries;
 
-      setDischargeTime(Math.floor(totalBatteryCapacity/loadRating));
-      setChargeTime(Math.ceil(totalBatteryCapacity/totalSolarCapacity));
+      setDischargeTime(Math.floor(totalBatteryCapacity / loadRating));
+      
+
+      const checkBool = (totalSolarCurrent>chargeCurrent ? true : false)
+      setChargeTime(Math.ceil( checkBool ? (totalBatteyCurrent / chargeCurrent):(batteryAmp_hour/totalSolarCurrent)));
+      console.log(chargeCurrent, checkBool)
       
     }
 
    return (    
-   <Grid data-aos='fade-in'>
+    <Grid data-aos='fade-in'>
+    <Time>
+        <Text1>Charge Current capacity :</Text1>
+        <Input> <Space type='number' id='charg' onChange={e=>setChargeCurrent(e.target.value)} value={chargeCurrent}></Space><Unit> A </Unit> </Input>
+        <Indicator><span style={{color:'red'}}>*</span> rating of charge controller</Indicator>
+    </Time>
     <Solar>
     <Text1>Number of solar panels :</Text1>
       <Input> <Space type='number' onChange={e=>setNumberOfPanels(e.target.value)} value={numberOfPanels}></Space><Unit> Unit </Unit> </Input>
@@ -157,6 +167,7 @@ const HomeBody = () => {
 
   const Numbers = () =>{
     const [chargeTime, setChargeTime] = useState();
+    const [chargeCurrent, setChargeCurrent] = useState();
   
     const [dischargeTime, setDischargeTime] = useState();
     
@@ -175,16 +186,17 @@ const HomeBody = () => {
     const [comment, setComment] = useState();
 
     const refresh =()=>{
-      setChargeTime('')
-      setDischargeTime('')
-      setSolarVoltage('')
-      setSolarWattage('')
-      setBatteryVoltage('')
-      setBatteryAmp_hour('')
-      setNumberOfBatteries('')
-      setNumberOfPanels('')
-      setLoadRating('')
-      setComment('')
+     setChargeTime('');
+     setDischargeTime('');
+     setSolarVoltage('');
+     setSolarWattage('');
+     setBatteryVoltage('');
+     setBatteryAmp_hour('');
+     setNumberOfBatteries('');
+     setNumberOfPanels('');
+     setLoadRating('');
+     setComment('');
+     setChargeCurrent('');
     }
     useEffect(refresh,[])
 
@@ -211,15 +223,20 @@ const HomeBody = () => {
         setComment('input the total load to be powered');
       }
 
+      //calculation for number of batteries needed based on inputted dischargeTime
       let batteryWattHour = batteryAmp_hour*batteryVoltage;
       let numberOfBatteries = (loadRating*dischargeTime)/batteryWattHour;
 
-      let panelCurrent = solarWattage/solarVoltage;
-      let perPanelChargeTime = batteryAmp_hour/panelCurrent;
-      let numberOfPanels = (perPanelChargeTime/chargeTime)*numberOfBatteries
+      //
+      let panelCurrent = solarWattage / solarVoltage;
+      let totalNewBatteryCapacity = numberOfBatteries * batteryAmp_hour;
+      let totalNewBatteryCurrent = totalNewBatteryCapacity / chargeTime;
+      
+      let numberOfPanels = (totalNewBatteryCurrent / panelCurrent);
 
       setNumberOfBatteries(Math.round(numberOfBatteries));
       setNumberOfPanels(Math.ceil(numberOfPanels));
+      setChargeCurrent('greater than or equals to ' + totalNewBatteryCurrent);
       
     }
 
@@ -227,6 +244,7 @@ const HomeBody = () => {
 
     return (
       <Grid>
+
       <Time>
         <Text1>Time for Charge :</Text1>
         <Input> <Space type='number' id='charg' onChange={e=>setChargeTime(e.target.value)} value={chargeTime}></Space><Unit> Hrs </Unit> </Input>
@@ -253,7 +271,12 @@ const HomeBody = () => {
       <Text1>Load :</Text1>
         <Input> <Space type='number' onChange={e=>setLoadRating(e.target.value)} value={loadRating}></Space><Unit> W </Unit> </Input>
         <Indicator><span style={{color:'red'}}>*</span> total load to be powered</Indicator>
-      </Solar>
+        </Solar>
+      <Time>
+        <Text1>Charge Current capacity :</Text1>
+          <Input> <Spacee>{chargeCurrent}</Spacee><Unit> A </Unit> </Input>
+        <Indicator><span style={{color:'red'}}>*</span> rating of charge controller</Indicator>
+      </Time>
       <Solar>
       <Text1>Number of solar panels :</Text1>
         <Input> <Spacee>{numberOfPanels}</Spacee><Unit> Unit </Unit> </Input>
@@ -321,6 +344,8 @@ const Box = styled.div`
   background-color: rgba(200,250,250, 0.7) ;
   border: 1px solid black;
   border-radius: 10px ;
+  
+  z-index:-2;
 `
 const Boxx = styled.div`
   display: grid ;
@@ -367,7 +392,7 @@ const Time = styled.div`
   }
 `
 const Text1 = styled.div`
-  font-size: 24px ;
+  font-size: 1rem ;
   @media screen and (max-width:600px){
     font-size:10px ;
   }
@@ -417,7 +442,7 @@ const Unit = styled.div`
   }
 `
 const Indicator = styled.div`
-  font-size: 16px ;
+  font-size: 1rem ;
   font-style: italic ;
   margin-left: 20px ;
   color: rgb(80,80,80) ;

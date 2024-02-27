@@ -2,19 +2,21 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 const useLoadpage = () => {
-    const [page, setPage] = useState(true)
-    const content = 'Solar Energy Estimator';
-    const [animateContent, setAnimateContent] = useState('');
-    useEffect(()=>{
-            setTimeout(()=>{
-            setAnimateContent(content.slice(0,animateContent.length+1))
-        }, 50);
+  const [page, setPage] = useState(true);
+  const content = 'Solar Energy Estimator';
+  const [animateContent, setAnimateContent] = useState('');
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimateContent(content.slice(0, animateContent.length + 1));
+    }, 50);
 
-        setTimeout(()=>{
-        setPage(false)}, 1800);
+    if (content.length === animateContent.length) {
+      setTimeout(() => {
+        setPage(false);
+      }, 1000)
+    };
 
-},[animateContent])
-console.log(page)
+  }, [animateContent]);
    
   return {
     page,
